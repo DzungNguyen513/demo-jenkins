@@ -1,37 +1,52 @@
 pipeline {
     agent any
+
     tools {
         maven 'Maven 3.9.9'
-        jdk 'JDK - 22' 
     }
+
+    environment {
+        MAVEN_OPTS = '-Xms512m -Xmx1024m' // Cấu hình bộ nhớ cho Maven
+    }
+
     stages {
         stage('Checkout') {
             steps {
                 git 'https://github.com/DzungNguyen513/demo-jenkins.git'
             }
         }
+        
         stage('Build') {
             steps {
-                sh 'mvn clean package'
+                sh 'mvn clean package -DskipTests'
             }
         }
+        
         stage('Test') {
             steps {
                 sh 'mvn test'
             }
         }
-    stage('Deploy') {
-        steps {
-        echo 'Deploy success'
+        
+        stage('Package') {
+            steps {
+                sh 'mvn package'
+            }
+        }
+        
+        stage('Deploy') {
+            steps {
+                echo 'Triển khai thành công ứng dụng Spring Boot!'
+            }
         }
     }
-    }
+
     post {
         success {
-            echo 'Deployment succeeded!'
+            echo 'Build và triển khai thành công!'
         }
         failure {
-            echo 'Deployment failed!'
+            echo 'Build hoặc triển khai thất bại!'
         }
     }
 }

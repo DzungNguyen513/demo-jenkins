@@ -6,7 +6,7 @@ pipeline {
     }
 
     environment {
-        MAVEN_OPTS = '-Xms512m -Xmx1024m' // Cấu hình bộ nhớ cho Maven
+        MAVEN_OPTS = '-Xms512m -Xmx1024m'
     }
 
     stages {
